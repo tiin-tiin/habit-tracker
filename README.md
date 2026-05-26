@@ -3,7 +3,7 @@
 
 ![HabitStreak Demo](./demo.gif)
 
-HabitStreak is a full-stack habit tracking web application designed to empower users to build, monitor, and maintain productive daily routines. Just log your daily check-ins — the app automatically translates your consistency into a flourishing virtual tree.
+HabitStreak is a full-stack habit tracking web application designed to empower users to build, monitor, and maintain productive daily routines. Just log your daily check-ins and the app automatically translates your consistency into a flourishing virtual tree.
 
 ---
 
@@ -27,11 +27,11 @@ Behind the scenes, the Django views calculate your monthly completion percentage
 
 ## Features
 
-- **Gamified Analytics** — A dynamic calendar heatmap and interactive tree-growth visualization that evolves based on your monthly completion rate.
-- **Asynchronous Daily Check-ins** — Mark habits as complete in real-time using jQuery/AJAX without full page reloads.
-- **Soft-Deletion (Skip Logic)** — Seamlessly "skip" a habit for the day (utilizing an `is_hidden` boolean) without destroying historical data or breaking your streak.
-- **Real-Time Search** — Instantly filter your list of active habits using client-side DOM manipulation.
-- **Secure Authentication** — Built-in user registration, secure session cookies, and personalized dashboards.
+- **Gamified Analytics**: A dynamic calendar heatmap and interactive tree-growth visualization that evolves based on your monthly completion rate.
+- **Asynchronous Daily Check-ins**: Mark habits as complete in real-time using jQuery/AJAX without full page reloads.
+- **Soft-Deletion (Skip Logic)**: Seamlessly "skip" a habit for the day (utilizing an `is_hidden` boolean) without destroying historical data or breaking your streak.
+- **Real-Time Search**: Instantly filter your list of active habits using client-side DOM manipulation.
+- **Secure Authentication**: Built-in user registration, secure session cookies, and personalized dashboards.
 
 ---
 
