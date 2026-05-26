@@ -1,7 +1,7 @@
 # HabitStreak 
 > *Gamify your consistency and watch your progress grow*
 
-![HabitStreak Demo](./demo.mp4)
+[HabitStreak Demo](./demo.mp4)
 
 HabitStreak is a full-stack habit tracking web application designed to empower users to build, monitor, and maintain productive daily routines. Just log your daily check-ins — the app automatically translates your consistency into a flourishing virtual tree.
 
