@@ -1,0 +1,83 @@
+{% extends 'habits/base.html' %}
+{% load static %}
+{% block title %}{{ month_name }} - HabitStreak{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ month_name }} {{ year }}</h2>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="row align-items-stretch">
+        <div class="col-lg-7 mb-4">
+            <div class="card h-100 p-4">
+                <h4 class="mb-4">Daily Tracker</h4>
+                <p class="text-muted small mb-3">Click on any day to check in.</p>
+                
+                <div class="d-flex flex-wrap gap-2">
+                    {% for day in days %}
+                        {% if day.is_today %}
+                            <a href="{% url 'daily_checkin' year month day.day_num %}" 
+                               class="btn" 
+                               style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; 
+                                      background-color: rgba(130, 178, 27, {{ day.opacity }});
+                                      border: 2px solid var(--dark-olive);
+                                      transform: scale(1.05);
+                                      font-weight: 600;
+                                      color: {% if day.opacity > 0.5 %}#ffffff{% else %}#333333{% endif %};">
+                                {{ day.day_num }}
+                            </a>
+                        {% else %}
+                            <div class="btn" 
+                                 style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; 
+                                        background-color: rgba(130, 178, 27, {{ day.opacity }});
+                                        border: 1px solid var(--warm-beige);
+                                        font-weight: 600;
+                                        opacity: 0.7;
+                                        cursor: not-allowed;
+                                        color: {% if day.opacity > 0.5 %}#ffffff{% else %}#333333{% endif %};">
+                                {{ day.day_num }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 mb-4">
+            <div class="card h-100 p-4 text-center d-flex flex-column justify-content-center align-items-center" style="background-color: var(--cream);">
+                <h4 class="mb-3">Monthly Growth</h4>
+                
+                <div class="mt-4 mb-4" style="height: 280px; display: flex; align-items: flex-end; justify-content: center;">
+                    <img src="{% static 'habits/images/'|add:tree_stage %}" 
+                         alt="Growth Stage" 
+                         style="height: auto; 
+                                {% if tree_stage == 'tree.gif' %}
+                                    width: 200px;  /* The Biggest */
+                                {% elif 'young' in tree_stage %}
+                                    width: 170px;  /* Middle Big */
+                                {% elif 'bigger' in tree_stage %}
+                                    width: 150px;  /* Slightly Big */
+                                {% else %}
+                                    width: 130px;  /* Small (Sapling/Plant) */
+                                {% endif %}
+                                image-rendering: pixelated;">
+                </div>
+
+                <div class="w-100 mt-auto">
+                    <div class="d-flex justify-content-between mb-1">
+                        <small class="text-muted">Bloom Progress</small>
+                        <small class="font-weight-bold">{{ growth_percent }}%</small>
+                    </div>
+                    <div class="progress" style="height: 10px; background-color: var(--warm-beige);">
+                        <div class="progress-bar" role="progressbar" style="width: {{ growth_percent }}%; background-color: var(--olive-green);" aria-valuenow="{{ growth_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

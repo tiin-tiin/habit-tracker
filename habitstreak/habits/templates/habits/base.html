@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HabitStreak - Build Better Habits{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --olive-green: #82b21b;
+            --dark-olive: #4b8424;
+            --light-olive: #a5f100;
+            --beige: #F5F1E8;
+            --cream: #FAF8F3;
+            --warm-beige: #E8DCC4;
+            --text-dark: #3E4A3A;
+            --text-muted: #6B7A55;
+            --white: #FFFFFF;
+            --danger: #C85C5C;
+            --success: #6B7A55;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--beige);
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: var(--olive-green) !important;
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--cream) !important;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .navbar-brand i {
+            color: var(--warm-beige);
+        }
+        
+        .navbar-light .navbar-nav .nav-link {
+            color: var(--cream) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: var(--warm-beige) !important;
+            transform: translateY(-1px);
+        }
+        
+        .navbar-toggler {
+            border-color: var(--cream);
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(245, 241, 232, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        /* Main Container */
+        .main-container {
+            padding: 3rem 0;
+            min-height: calc(100vh - 76px);
+        }
+        
+        /* Cards */
+        .card {
+            background-color: var(--white);
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(107, 122, 85, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(107, 122, 85, 0.12);
+        }
+        
+        /* Form Controls */
+        .form-label {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
+            border: 2px solid var(--warm-beige);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: var(--cream);
+            color: var(--text-dark);
+        }
+        
+        .form-control:focus {
+            border-color: var(--olive-green);
+            box-shadow: 0 0 0 0.2rem rgba(107, 122, 85, 0.15);
+            background-color: var(--white);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--olive-green);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            color: var(--cream);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark-olive);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(107, 122, 85, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-outline-secondary {
+            border: 2px solid var(--olive-green);
+            color: var(--olive-green);
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+        
+        .btn-outline-secondary:hover {
+            background-color: #808080;
+            color: var(--cream);
+            border-color: var(--olive-green);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(107, 122, 85, 0.3);
+        }
+        
+        /* Alerts */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .alert-success {
+            background-color: rgba(107, 122, 85, 0.1);
+            color: var(--olive-green);
+        }
+        
+        .alert-danger {
+            background-color: rgba(200, 92, 92, 0.1);
+            color: var(--danger);
+        }
+        
+        .alert-info {
+            background-color: rgba(139, 158, 111, 0.1);
+            color: var(--light-olive);
+        }
+        
+        /* Validation Messages */
+        .validation-message {
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
+            font-weight: 500;
+        }
+        
+        .validation-message.valid {
+            color: var(--success);
+        }
+        
+        .validation-message.invalid {
+            color: var(--danger);
+        }
+        
+        /* Links */
+        a {
+            color: var(--olive-green);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--dark-olive);
+        }
+        
+        /* Text Colors */
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        .text-success {
+            color: var(--success) !important;
+        }
+        
+        .text-primary {
+            color: var(--olive-green) !important;
+        }
+        
+        /* Loading Spinner */
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+            border-width: 0.15em;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--beige);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--olive-green);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-olive);
+        }
+        
+        /* Smooth transitions */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Description section */
+        .description-side {
+            padding: 2rem;
+        }
+        
+        .description-side h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .description-side p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+        
+        .feature-item {
+            padding: 1rem 0;
+        }
+        
+        .feature-item i {
+            color: var(--olive-green);
+            font-size: 1.3rem;
+            margin-right: 0.75rem;
+        }
+        
+        .feature-item h5 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+        
+        .feature-item small {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .pixel-tree {
+            width: 100px;
+            height: 100px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        .description-side .feature-item {
+            padding-left: 0;
+            margin-left: 0;
+        }
+
+        
+
+/* 1. Highlighted Text Selection (When you drag to select text) */
+        ::selection {
+            background-color: var(--olive-green) !important;
+            color: white !important;
+        }
+        ::-moz-selection { /* For Firefox */
+            background-color: var(--olive-green) !important;
+            color: white !important;
+        }
+
+        /* 2. Dropdown Menu Items (When you click your User menu) */
+        .dropdown-item:active, 
+        .dropdown-item.active,
+        .dropdown-item:focus,
+        .dropdown-item:hover {
+            background-color: var(--olive-green) !important;
+            color: white !important;
+        }
+
+        /* 3. The Glow Ring (When you click the Year Filter or inputs) */
+        .form-select:focus, 
+        .form-control:focus, 
+        .btn:focus {
+            border-color: var(--dark-olive) !important;
+            /* This creates a soft, transparent green glow instead of the harsh blue ring */
+            box-shadow: 0 0 0 0.25rem rgba(139, 195, 74, 0.25) !important; 
+        }
+
+        /* 4. The "Logging in..." Button active state */
+        .btn-primary:active, 
+        .btn-primary.active, 
+        .btn-primary:focus {
+            background-color: var(--dark-olive) !important;
+            border-color: var(--dark-olive) !important;
+            box-shadow: 0 0 0 0.25rem rgba(139, 195, 74, 0.25) !important;
+        }
+
+        /* This targets the checkbox when it is checked */
+        .form-check-input:checked {
+            background-color: var(--olive-green) !important;
+            border-color: var(--olive-green) !important;
+        }
+
+        /* This handles the glow/outline when you click it */
+        .form-check-input:focus {
+            border-color: var(--olive-green);
+            box-shadow: 0 0 0 0.25rem rgba(107, 142, 35, 0.25); /* 6b8e23 is olive green in hex */
+        }
+
+        /* Change the hover background to your olive green */
+        .dropdown-item:hover {
+            background-color: var(--olive-green) !important;
+            color: white !important;
+        }
+
+        /* Style for the currently selected year in the list */
+        .active-year {
+            background-color: rgba(130, 178, 27, 0.1) !important; /* Light green tint */
+            border-left: 3px solid var(--olive-green);
+        }
+
+        /* Remove the blue "glow" when clicking the button */
+        .btn:focus, .btn:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-seedling"></i> HabitStreak
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown" style="background-color: var(--cream);">
+                                <li>
+                                    <a class="dropdown-item py-2" href="{% url 'dashboard' %}">
+                                        <i class="fas fa-chart-line text-success me-2"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="{% url 'manage_habits' %}">
+                                        <i class="fas fa-list text-success me-2"></i> Manage Habits
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider" style="border-color: var(--warm-beige);"></li>
+                                <li>
+                                    <a class="dropdown-item py-2 text-danger" href="{% url 'logout' %}">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <a class="nav-link me-3" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                        <a class="nav-link" href="{% url 'register' %}">
+                            <i class="fas fa-user-plus"></i> Register
+                        </a>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <!-- Main Content -->
+    <div class="main-container">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <!-- jQuery (required for AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Get CSRF token for AJAX requests
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        const csrftoken = getCookie('csrftoken');
+        
+        // Setup AJAX to include CSRF token
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

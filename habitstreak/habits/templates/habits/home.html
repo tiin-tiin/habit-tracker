@@ -1,0 +1,75 @@
+{% extends 'habits/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row align-items-center" style="min-height: 75vh;">
+        
+        <div class="col-lg-6 description-side">
+            <div class="d-flex align-items-start mb-4">
+                <img src="{% static 'habits/images/animated_sapling.gif' %}" alt="Habit tree" class="pixel-tree me-3">
+                <div>
+                    <h2>Build Better Habits,</h2>
+                    <h2>One Day At A Time</h2>
+                </div>
+            </div>
+ 
+            <div style="padding-left: 110px;">
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="d-inline-block">
+                        <h5>Simple Daily Tracking</h5>
+                        <small>Quick check-ins to stay accountable</small>
+                    </div>
+                </div>
+            
+                <div class="feature-item">
+                    <i class="fas fa-fire"></i>
+                    <div class="d-inline-block">
+                        <h5>Streak Motivation</h5>
+                        <small>Build momentum and consistency</small>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-seedling"></i>
+                    <div class="d-inline-block">
+                        <h5>Visual Growth</h5>
+                        <small>See your progress bloom like a tree</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body p-5 text-center">
+                    <h2 class="h2 fw-bold mb-4" style="color: var(--text-dark);">
+                        <i class="fas fa-seedling text-success"></i> HabitStreak
+                    </h2>
+                    <p class="lead mb-4">
+                        Start your journey to better habits today
+                    </p>
+
+                    <p class="lead mb-4">
+                        Transform your daily routines into lasting positive change with HabitStreak. 
+                        
+                    </p>
+                    
+                    <div class="d-grid gap-3 mb-4">
+                        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">
+                            Create Free Account
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg">
+                            Login
+                        </a>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

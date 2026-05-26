@@ -1,0 +1,42 @@
+{% extends 'habits/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <h2 class="mb-0 me-3">Your Year:</h2>
+                <div class="dropdown">
+                    <button class="btn btn-sm dropdown-toggle rounded-pill px-3" type="button" id="yearDropdown" data-bs-toggle="dropdown" aria-expanded="false" 
+                            style="background-color: var(--warm-beige); border: none; font-weight: bold; height: 32px;">
+                        {{ current_year }}
+                    </button>
+                    <ul class="dropdown-menu shadow-sm" aria-labelledby="yearDropdown" style="background-color: var(--warm-beige); border: 1px solid var(--dark-olive); min-width: 80px;">
+                        {% for y in available_years %}
+                            <li>
+                                <a class="dropdown-item {% if y == current_year %}active-year{% endif %}" 
+                                   href="?year={{ y }}" 
+                                   style="font-weight: bold; color: var(--text-dark);">
+                                    {{ y }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for month in months %}
+        <div class="col-md-4">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="card-body py-5">
+                    <h3 class="mb-3">{{ month.full_name }}</h3>
+                    <a href="{% url 'month_view' current_year month.num %}" class="btn btn-primary">View Progress</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends 'habits/base.html' %}
+{% block title %}Register - HabitStreak{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 pe-md-5 mb-5 mb-md-0">
+            <h1 class="display-5 fw-bold mb-3" style="color: var(--dark-olive);">Start Your Habit Journey</h1>
+            <p class="lead text-muted mb-5">Join HabitStreak and transform your daily routines into lasting positive change.</p>
+            
+            <div class="d-flex mb-4">
+                <div class="me-3 fs-3" style="color: var(--olive-green);"><i class="fas fa-seedling"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-1">Plant Your Seeds</h5>
+                    <p class="text-muted">Every habit starts small, just like a seed</p>
+                </div>
+            </div>
+            
+            <div class="d-flex mb-4">
+                <div class="me-3 fs-3" style="color: var(--olive-green);"><i class="fas fa-calendar-check"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-1">Daily Check-ins</h5>
+                    <p class="text-muted">Simple, quick habit tracking every day</p>
+                </div>
+            </div>
+            
+            <div class="d-flex mb-4">
+                <div class="me-3 fs-3" style="color: var(--olive-green);"><i class="fas fa-tree"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-1">Watch Them Grow</h5>
+                    <p class="text-muted">Your consistency creates beautiful visual progress</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 p-4 p-md-5" style="border-radius: 1rem; background-color: white;">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold" style="color: var(--dark-olive);">Create Account</h2>
+                    <p class="text-muted">Start building better habits today</p>
+                </div>
+
+                <form method="post" id="registerForm">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold"><i class="fas fa-user text-muted"></i> Username</label>
+                        {{ form.username }}
+                        <div id="usernameFeedback" class="small mt-1 fw-bold"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold"><i class="fas fa-envelope text-muted"></i> Email</label>
+                        {{ form.email }}
+                        <div id="emailFeedback" class="small mt-1 fw-bold"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold"><i class="fas fa-lock text-muted"></i> Password</label>
+                        {{ form.password }}
+                        <div id="passwordStrengthFeedback" class="small mt-1 fw-bold"></div>
+                    </div>
+
+                
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold"><i class="fas fa-lock text-muted"></i> Confirm Password</label>
+                        {{ form.password_confirm }}
+                        <div id="passwordMatchFeedback" class="small mt-1 fw-bold"></div>
+                    </div>
+
+                    <div class="d-grid gap-2 mb-4">
+                        <button type="submit" id="submitBtn" class="btn btn-primary btn-lg fw-bold">
+                            Create Account
+                        </button>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-muted mb-0">Already have an account? <a href="{% url 'login' %}" style="color: var(--olive-green); text-decoration: none; font-weight: bold;">Login here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        const csrfToken = $('[name=csrfmiddlewaretoken]').val();
+    
+        // ==========================================
+        // 1. REUSABLE AJAX FUNCTION (jQuery Version)
+        // ==========================================
+        function validateField($input, url, feedbackId, fieldName) {
+            const $feedback = $('#' + feedbackId);
+            const value = $input.val().trim();
+    
+            if (value.length < 3 && fieldName === 'username') {
+                $feedback.html("");
+                $input.css('border-color', '');
+                return;
+            }
+    
+            let payload = {};
+            payload[fieldName] = value;
+    
+            $.ajax({
+                url: url,
+                type: 'POST',
+                headers: { 'X-CSRFToken': csrfToken },
+                data: payload,
+                success: function(response) {
+                    if (response.valid) {
+                        $feedback.css('color', 'green').html('<i class="fas fa-check-circle"></i> Available!');
+                        $input.css('border-color', 'green');
+                    } else {
+                        $feedback.css('color', 'red').html(`<i class="fas fa-times-circle"></i> ${response.message}`);
+                        $input.css('border-color', 'red');
+                    }
+                },
+                error: function(err) {
+                    console.error('AJAX Error:', err);
+                }
+            });
+        }
+    
+        // ==========================================
+        // 2. USERNAME & EMAIL VALIDATION
+        // ==========================================
+        const $usernameInput = $('input[name="username"]');
+        const $emailInput = $('input[name="email"]');
+        const $emailFeedback = $('#emailFeedback');
+    
+        $usernameInput.on('keyup', function() {
+            validateField($(this), '/ajax/validate-username/', 'usernameFeedback', 'username');
+        });
+    
+        $emailInput.on('keyup', function() {
+            const val = $(this).val().trim();
+            const isValidFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val); 
+    
+            if (val.length === 0) {
+                $emailFeedback.html("");
+                $(this).css('border-color', '');
+                return;
+            }
+    
+            if (!isValidFormat) {
+                $emailFeedback.css('color', 'red').html('<i class="fas fa-times-circle"></i> Invalid email format');
+                $(this).css('border-color', 'red');
+                return; 
+            }
+    
+            validateField($(this), '/ajax/validate-email/', 'emailFeedback', 'email');
+        });
+    
+        // ==========================================
+        // 3. PASSWORD STRENGTH & MATCH VALIDATION
+        // ==========================================
+        const $passInput = $('input[name="password"]');
+        const $confirmInput = $('input[name="password_confirm"]');
+        const $strengthFeedback = $('#passwordStrengthFeedback');
+        const $matchFeedback = $('#passwordMatchFeedback');
+    
+        $passInput.on('keyup', function() {
+            const val = $(this).val();
+            let errors = [];
+    
+            const hasNumber = /\d/.test(val);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(val);
+            const isLongEnough = val.length >= 8;
+    
+            if (!isLongEnough) errors.push("8+ characters");
+            if (!hasNumber) errors.push("1 number");
+            if (!hasSpecial) errors.push("1 special character");
+    
+            if (val.length === 0) {
+                $strengthFeedback.html('');
+                $(this).css('border-color', '');
+            } else if (errors.length > 0) {
+                $strengthFeedback.css('color', 'red').html(`<i class="fas fa-times-circle"></i> Needs: ${errors.join(', ')}`);
+                $(this).css('border-color', 'red');
+            } else {
+                $strengthFeedback.css('color', 'green').html('<i class="fas fa-check-circle"></i> Strong password!');
+                $(this).css('border-color', 'green');
+            }
+            
+            checkPasswords();
+        });
+    
+        function checkPasswords() {
+            const pass1 = $passInput.val();
+            const pass2 = $confirmInput.val();
+    
+            if (pass2.length === 0) {
+                $matchFeedback.html('');
+                $confirmInput.css('border-color', '');
+                return;
+            }
+    
+            if (pass1 === pass2) {
+                $matchFeedback.css('color', 'green').html('<i class="fas fa-check-circle"></i> Passwords match!');
+                $confirmInput.css('border-color', 'green');
+            } else {
+                $matchFeedback.css('color', 'red').html('<i class="fas fa-times-circle"></i> Passwords do not match');
+                $confirmInput.css('border-color', 'red');
+            }
+        }
+    
+        $confirmInput.on('keyup', checkPasswords);
+    });
+    </script>
+{% endblock %}
