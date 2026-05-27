@@ -126,3 +126,12 @@ python-dotenv==1.2.2
 sqlparse==0.5.5
 tzdata==2026.1
 ```
+
+---
+
+## Assets & Rights
+
+All custom animations, including the **Growth Sapling GIF**, were designed and created specifically for this project.
+* **Format:** Hand-crafted pixel/frame-based animation.
+* **Rights:** © 2026 tiin-tiin. All rights reserved. 
+* *Note: These assets are intended for the HabitStreak project and should not be redistributed without permission.*
